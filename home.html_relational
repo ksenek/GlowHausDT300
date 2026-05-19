@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block pageheading %}
+Welcome to your Glow era
+{% endblock %}
+
+{% block main %}
+
+<section class="hero">
+
+
+    <div class="hero-text">
+
+        <p>
+            Discover skincare, makeup, and beauty essentials curated for your glow.
+        </p>
+
+        <a href="/products" class="shop-button">Shop Now</a>
+    </div>
+
+    <div class="hero-images">
+
+        <div class="glass-card perfume-card">
+            <img src="{{ url_for('static', filename='images/perfume_home.jpg') }}" alt="Moonlight Mist Perfume">
+        </div>
+
+        <div class="glass-card serum-card">
+            <img src="{{ url_for('static', filename='images/toner_home.jpg') }}" alt="Dew Drop Toner">
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}
