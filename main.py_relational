@@ -1,0 +1,47 @@
+from flask import Flask, render_template
+import sqlite3
+from sqlite3 import Error
+
+app = Flask(__name__)
+DATABASE = "glosshaus.db"
+
+def create_connection(db_file):
+  """create connection to database"""
+  try:
+    connection = sqlite3.connect(db_file)
+    return connection
+  except Error as e:
+    print(e)
+  return None
+
+@app.route('/')
+def render_homepage():
+  return render_template('home.html')
+
+
+@app.route('/products/<int:cat_id>')
+def render_products_page(cat_id):
+  con = create_connection(DATABASE)
+  query = "SELECT name, description, size, image, price FROM products WHERE cat_id=?"
+  cur = con.cursor()
+  cur.execute(query, (cat_id,))
+  product_list = cur.fetchall()
+
+  cat_query= "SELECT id, name FROM categories"
+  cur.execute(cat_query)
+  category_list = cur.fetchall()
+
+  con.close()
+
+  return render_template('products.html', products=product_list, categories=category_list, cat_id=cat_id)
+
+
+
+
+@app.route('/contact')
+def render_contact_page():
+  return render_template('contact.html')
+
+
+if __name__ == "__main__":
+  app.run(host='0.0.0.0', port=81)
